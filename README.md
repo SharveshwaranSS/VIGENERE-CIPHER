@@ -32,72 +32,65 @@ STEP-8: Repeat the above steps to generate the entire cipher text.
 
 ## PROGRAM
 ```
-#include <stdio.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
-void encipher();
-void decipher();
-int main() {
-int choice;
-while (1) {
-printf("\n1. Encrypt Text");
-printf("\t2. Decrypt Text");
-printf("\t3. Exit");
-printf("\n\nEnter Your Choice: ");
-scanf("%d", &choice);
-if (choice == 3)
-return 0; // Proper exit from main()
-else if (choice == 1)
-encipher();
-else if (choice == 2)
-decipher();
-else
-printf("Please Enter a Valid Option.\n");
-}
-}
-void encipher() {
-unsigned int i, j;
-char input[50], key[10];
-printf("\n\nEnter Plain Text: ");
-scanf("%s", input);
-printf("\nEnter Key Value: ");
-scanf("%s", key);
-printf("\nResultant Cipher Text: ");
-for (i = 0, j = 0; i < strlen(input); i++, j++) {
-if (j >= strlen(key)) {
-j = 0; // Reset key index if it exceeds the key length
-}
-printf("%c", 65 + (((toupper(input[i]) - 65) + (toupper(key[j]) - 65)) % 26));
-// Encryption formula
-}
-printf("\n"); // New line after output
-}
-void decipher() {
-unsigned int i, j;
-char input[50], key[10];
-int value;
-printf("\n\nEnter Cipher Text: ");
-scanf("%s", input);
-printf("\nEnter the Key Value: ");
-scanf("%s", key);
-printf("\nDecrypted Plain Text: ");
-for (i = 0, j = 0; i < strlen(input); i++, j++) {
-if (j >= strlen(key)) {
-j = 0; // Reset key index if it exceeds the key length
-}// Decryption formula
-value = (toupper(input[i]) - 65) - (toupper(key[j]) - 65);
-if (value < 0) {
-value += 26; // Correct the negative wrap-around in alphabet
-}
-printf("%c", 65 + (value % 26));
-}
-printf("\n"); // New line after output
+def encipher():
+    text = input("\nEnter Plain Text: ").upper()
+    key = input("Enter Key Value: ").upper()
+    cipher_text = ""
+
+    j = 0
+    for i in range(len(text)):
+        if text[i].isalpha():
+            shift = (ord(text[i]) - 65 + ord(key[j]) - 65) % 26
+            cipher_text += chr(65 + shift)
+            j = (j + 1) % len(key)
+        else:
+            cipher_text += text[i]
+
+    print("\nResultant Cipher Text:", cipher_text)
+
+
+def decipher():
+    text = input("\nEnter Cipher Text: ").upper()
+    key = input("Enter Key Value: ").upper()
+    plain_text = ""
+
+    j = 0
+    for i in range(len(text)):
+        if text[i].isalpha():
+            shift = (ord(text[i]) - 65 - (ord(key[j]) - 65)) % 26
+            plain_text += chr(65 + shift)
+            j = (j + 1) % len(key)
+        else:
+            plain_text += text[i]
+
+    print("\nDecrypted Plain Text:", plain_text)
+
+
+def main():
+    while True:
+        print("\n1. Encrypt Text\t2. Decrypt Text\t3. Exit")
+        choice = input("Enter Your Choice: ")
+
+        if choice == "1":
+            encipher()
+        elif choice == "2":
+            decipher()
+        elif choice == "3":
+            print("Exiting... Goodbye!")
+            break
+        else:
+            print("Please Enter a Valid Option.")
+
+
+if __name__ == "__main__":
+    main()
+
 }
 ```
 
 ## OUTPUT
-![Screenshot 2025-03-19 140624](https://github.com/user-attachments/assets/5dc8e985-ad67-4f0e-8c06-7c21e813394b)
+<img width="1691" height="1073" alt="Screenshot 2025-09-16 204549" src="https://github.com/user-attachments/assets/db25d179-7cc7-4ef1-b13c-141fa0eabfd8" />
+
 
 
 ## RESULT
